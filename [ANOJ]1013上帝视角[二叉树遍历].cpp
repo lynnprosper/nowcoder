@@ -48,6 +48,7 @@ int main()
 	return 0;
 }
 
+/* 参数分别为当前层序， 中序的左侧，右侧，当前结点的x, y坐标*/
 void dfs(vector<int> v, int nl, int nr, int x, int y)
 {
 	if (nl > nr)
@@ -65,32 +66,33 @@ void dfs(vector<int> v, int nl, int nr, int x, int y)
 		}
 		else
 		{
-			H[nv[i]] = 1;
+			H[nv[i]] = 1;//标记为左树的层序
 		}
 	}
 	for (int i = 0; i < v.size(); i++)
 	{
 		if (H[v[i]] == 1)
-			left.push_back(v[i]);
+			left.push_back(v[i]);//保存左树层序
 	}
 	for (int i = pos + 1; i <= nr; i++)
 	{
-		S[nv[i]] = 1;
+		S[nv[i]] = 1;	//标记为右树的层序
 	}
 	for (int i = 0; i < v.size(); i++)
 	{
 		if (S[v[i]] == 1)
-			right.push_back(v[i]);
+			right.push_back(v[i]);	//保存右树层序
 	}
 
+	/*更新坐标值*/
 	lrt.insert(x + y);
 	minx = min(minx, x);
 	mx = max(x, mx);
 	my = max(y, my);
 
 	pv.push_back(v[0]);
-	dfs(left, nl, pos - 1, x - 1, y + 1);
-	dfs(right, pos + 1, nr, x + 1, y + 1);
+	dfs(left, nl, pos - 1, x - 1, y + 1);//递归左树
+	dfs(right, pos + 1, nr, x + 1, y + 1);//递归右树
 	tv.push_back(v[0]);
 
 	return;
